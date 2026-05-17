@@ -32,6 +32,9 @@
 ### Список эндпойнтов
 
 1. `POST /tasks` - создание задачи
+    - условия:
+      - можно указывать сразу `assigned` - в таком случае инициализируете `startedWorkAt` на текущее время
+      - если `assigned` не был указан -  `startedWorkAt` не будет инициализирован
     - тело запроса
     ```json
     {
@@ -60,9 +63,46 @@
         },
         "priority": "NORMAL",
         "createdAt": "2026-01-01T15:30",
-        "startedWorkAt": null,
+        "startedWorkAt": "2026-01-01T15:30",
         "status": "NEW"
     }
     ```
 2. `GET /tasks` - Получение списка задач
 3. `GET /tasks/{id}` - Получение задачи по id
+4. `PUT /tasks` - Обновление задачи
+   - условия
+     - нельзя обновлять: `owner`, `createdAt`, `id`
+     - можно обновить: `title`, `description`, `assigned`, `priority`, `startedWorkAt`, `status`
+   - тело запроса
+   ```json
+   {
+       "id": 1,
+       "title": "NEW TITLE",
+       "description": "NEW DESCRIPTION",
+       "assigned": {
+         "id": 6
+       },
+       "priority": "LOW",
+       "startedWorkAt": "2026-01-01T15:30",
+       "status": "IN_WORK"
+   }
+   ```
+   - тело ответа
+   ```json
+   {
+       "id": 1,
+       "title": "NEW TITLE",
+       "description": "NEW DESCRIPTION",
+       "owner": {
+          "id": 1
+       },
+       "assigned": {
+         "id": 6
+       },
+       "priority": "LOW",
+       "createdAt": "2026-01-01T15:30",
+       "startedWorkAt": "2026-01-01T15:30",
+       "status": "IN_WORK"
+   }
+   ```
+
