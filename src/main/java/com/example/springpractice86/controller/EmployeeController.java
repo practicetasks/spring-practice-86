@@ -22,9 +22,10 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getEmployees() {
+    public List<Employee> getEmployees(@RequestParam(required = false) String position,
+                                       @RequestParam(required = false) String name) {
         log.info("Получен запрос на получени списка сотрудников");
-        return employeeService.getEmployees();
+        return employeeService.getEmployees(position, name);
     }
 
     @GetMapping("/{id}")

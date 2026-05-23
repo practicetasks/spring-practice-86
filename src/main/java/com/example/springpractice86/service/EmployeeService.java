@@ -11,11 +11,27 @@ import java.util.List;
 
 @Service
 public class EmployeeService {
-    private final List<Employee> employees = new ArrayList<>();
+    private final List<Employee> employees = new ArrayList<>() {{
+        add(new Employee(1L, "John", "Doe", "DevOps", LocalDate.now()));
+        add(new Employee(2L, "Jane", "Doe", "Frontend", LocalDate.now()));
+        add(new Employee(3L, "John", "Lennon", "Frontend", LocalDate.now()));
+        add(new Employee(4L, "Bob", "Dylan", "SRE-engineer", LocalDate.now()));
+        add(new Employee(5L, "Jack", "Dylan", "DevOps", LocalDate.now()));
+    }};
+
     private long nextId;
 
-    public List<Employee> getEmployees() {
-        return employees;
+    public List<Employee> getEmployees(String position, String name) {
+        List<Employee> list = new ArrayList<>();
+
+        for (Employee employee : employees) {
+            if ((position == null || employee.getPosition().equals(position))
+                    && (name == null || employee.getName().equals(name))) {
+                list.add(employee);
+            }
+        }
+
+        return list;
     }
 
     public Employee getById(long id) {
